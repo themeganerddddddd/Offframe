@@ -527,3 +527,77 @@
 @media(max-width:360px){.dash-hero h1{font-size:33px}.dash-hero-actions{flex-wrap:wrap}.dash-new-post,.dash-shuffle{padding:10px}.dash-feed-tabs button{font-size:11px;padding:10px 12px}.me-metrics{flex-wrap:wrap}.me-actions>*{min-width:0;flex:1}}
 
 @media(max-width:760px){.dash-hero-art{display:none}.dash-hero{background:linear-gradient(115deg,#f0cabd 0%,#e8b9c8 100%)}}
+
+
+/* OFFFRAME V7 / restrained iconography + native-feeling artist gallery */
+.of-icon{width:20px;height:20px;display:inline-block;flex:none;vertical-align:middle;stroke-width:1.8}
+.nav-symbol .of-icon{width:21px;height:21px}
+.topbar-button .of-icon,.bottom-link .of-icon{width:18px;height:18px}
+.swipe-slide{touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.swipe-slide .slide-image{pointer-events:none;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;transform:none!important;cursor:default}
+.slide-meta h2 .artist-name-link .of-icon{width:22px;height:22px;color:#ffbeae;transition:transform .15s}
+.slide-meta h2 .artist-name-link:hover .of-icon{transform:translateX(3px)}
+.slide-arrows{display:flex;align-items:center;gap:12px;margin-top:1px}
+.slide-arrows .gallery-arrow{width:32px;height:32px;display:grid;place-items:center;border:1px solid rgba(242,235,235,.65);background:rgba(23,22,27,.30);border-radius:50%;color:#fff;backdrop-filter:blur(8px);padding:0}
+.slide-arrows .gallery-arrow .of-icon{width:16px;height:16px}
+.slide-arrows>span{font-size:10px;color:#e6ddd9;letter-spacing:.15px}
+.slide-arrows .gallery-arrow:hover{background:rgba(255,255,255,.22)}
+.slide-actions .round-action{display:grid;place-items:center}
+.slide-actions .round-action .of-icon{width:23px;height:23px;stroke-width:2.1}
+.slide-actions .on .of-icon{fill:rgba(255,143,156,.2)}
+.slide-meta{z-index:2}.slide-actions{z-index:3}.slide-top{z-index:2}
+.slide-progress{font-variant-numeric:tabular-nums}
+.profile-main-btn .of-icon,.profile-owner-bar .of-icon{width:17px;height:17px;margin-right:6px}
+.profile-owner-bar{gap:10px}
+.profile-main-btn.owner-edit-main{background:#f0c1b5;color:#241c24;border-color:#f0c1b5}
+.profile-main-btn.owner-edit-main:hover{background:#ffdfd3}
+/* Mood cards are editorial art-led categories, not emoji badges */
+.moods-grid{gap:16px}
+.mood-tile{height:210px;display:flex;flex-direction:column;justify-content:space-between;border-radius:14px;isolation:isolate;padding:20px;background:#282633;overflow:hidden;border:1px solid rgba(255,255,255,.09);transition:transform .2s,border-color .2s}
+.mood-tile .mood-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.75);opacity:.9;z-index:-2;transition:transform .35s,filter .3s}
+.mood-tile:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,13,19,.40),transparent 34%,rgba(14,13,19,.80) 100%);z-index:-1}
+.mood-tile:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.33)}
+.mood-tile:hover .mood-art{transform:scale(1.05);filter:saturate(.95)}
+.mood-number{font-size:10px;letter-spacing:2px;font-weight:700;color:rgba(255,255,255,.85)}
+.mood-tile h3{font-family:'Manrope','DM Sans',sans-serif;font-weight:750;letter-spacing:-.8px;font-size:26px;line-height:1.08;color:#fff}
+.mood-tile p{font-size:12px;color:#e7e1e3;margin-top:11px;display:flex;gap:8px;align-items:center}
+.mood-tile p .of-icon{width:15px;height:15px}
+/* TikTok-like comments overlay. The feed remains visible behind a sheet. */
+.comment-sheet-shell{position:fixed;inset:0;z-index:75;pointer-events:none;visibility:hidden}
+.comment-sheet-shell.open{pointer-events:auto;visibility:visible}
+.comment-sheet-backdrop{position:absolute;inset:0;width:100%;height:100%;background:rgba(8,8,13,.44);opacity:0;transition:opacity .2s;cursor:default}
+.comment-sheet-shell.open .comment-sheet-backdrop{opacity:1}
+.comment-sheet-panel{position:absolute;right:0;bottom:0;width:min(440px,100%);height:min(740px,84dvh);display:flex;flex-direction:column;background:#1e1d25;color:#f9f5f8;border-radius:22px 0 0 0;border:1px solid #433943;border-right:0;border-bottom:0;box-shadow:-20px 0 65px rgba(0,0,0,.30);transform:translateY(105%);transition:transform .23s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+.comment-sheet-shell.open .comment-sheet-panel{transform:translateY(0)}
+.comment-handle{display:none;width:44px;height:4px;border-radius:10px;background:#685e6d;align-self:center;margin-top:10px;flex:none}
+.comment-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:25px 24px 16px;border-bottom:1px solid #37343f}
+.comment-sheet-header .eyebrow{color:#f1ada5;font-size:9px;letter-spacing:1.6px}
+.comment-sheet-header h2{font-size:22px;letter-spacing:-.7px;margin-top:6px}
+.comment-close{width:38px;height:38px;border:1px solid #4b4551;border-radius:50%;display:grid;place-items:center;background:#2d2a35}
+.comment-close .of-icon{width:18px;height:18px}
+.comment-context{padding:14px 24px 15px;border-bottom:1px solid #37343f;display:flex;flex-direction:column;gap:5px}
+.comment-context strong{font-size:13px}.comment-context span{font-size:11px;color:#a99fab}
+.comment-list{overflow-y:auto;overscroll-behavior:contain;flex:1;min-height:0;padding:18px 23px 25px;display:flex;flex-direction:column;gap:21px}
+.comment-item{display:flex;gap:12px;align-items:flex-start}.comment-avatar{width:36px;height:36px;border-radius:50%;background:#605269;color:#fdf5fb;display:grid;place-items:center;font-size:13px;font-weight:800;flex:none}.comment-item>div:last-child{min-width:0;flex:1}.comment-item strong{font-size:12px}.comment-item small{font-size:10px;color:#aaa0ad;font-weight:400;margin-left:6px}.comment-item p{font-size:13px;line-height:1.6;margin-top:7px;white-space:pre-wrap;overflow-wrap:anywhere}
+.comment-empty{margin:auto;max-width:290px;text-align:center;padding:40px 0}.comment-empty h3{font-size:19px;letter-spacing:-.5px}.comment-empty p{font-size:12px;color:#a79ca9;margin-top:8px;line-height:1.65}
+.comment-compose{display:flex;align-items:center;gap:9px;padding:14px 16px 8px;border-top:1px solid #423a46;flex:none}.comment-compose input{min-height:46px;flex:1;min-width:0;border:1px solid #595060;border-radius:25px;background:#2c2933;color:white;padding:0 17px;font-size:16px}.comment-compose input:focus-visible{outline:2px solid #edaea8;outline-offset:0}.comment-compose button{background:#edb2a5;color:#241b23;border-radius:22px;padding:11px 15px;min-height:44px;font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:6px}.comment-compose button .of-icon{height:15px;width:15px}.comment-disclaimer{font-size:10px;color:#928997;text-align:center;padding:5px 12px 14px;line-height:1.4}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+/* Strip accidental dingbat pseudo-icons; always favor readable labels. */
+.cta-sparkle,.mood-symbol{display:none!important}
+@media(max-width:760px){
+ .moods-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.mood-tile{height:186px;padding:15px}.mood-tile h3{font-size:21px}
+ .swipe-slide,.slide-image{touch-action:pan-y}.slide-meta{bottom:26px}.slide-arrows .gallery-arrow{width:31px;height:31px}
+ .slide-meta h2 .artist-name-link .of-icon{width:18px;height:18px}
+ .comment-sheet-panel{width:100%;height:min(630px,76dvh);border-radius:19px 19px 0 0;border-left:0;border-top:1px solid #554a57;padding-bottom:env(safe-area-inset-bottom,0)}
+ .comment-handle{display:block}.comment-sheet-header{padding:14px 18px 13px}.comment-context{padding:11px 18px}.comment-list{padding:16px 18px}.comment-compose{padding:12px 12px 6px}
+}
+@media(prefers-reduced-motion:reduce){.comment-sheet-panel,.comment-sheet-backdrop,.mood-tile .mood-art{transition:none}}
+
+/* V7 final icon fixes */
+.bottom-link>.of-icon,.bottom-link>span>.of-icon{width:21px;height:21px;stroke-width:1.75}
+.topbar-button>.of-icon,.topbar-button>span>.of-icon{width:17px;height:17px;flex:none}
+.post-buttons .of-icon{width:19px;height:19px}
+.topbar .topbar-button{min-width:40px;justify-content:center}
+@media(max-width:760px){.topbar .topbar-button.account-button{min-width:84px}.topbar .topbar-button .of-icon{width:18px;height:18px}.bottom-link>span{font-size:inherit;display:flex;align-items:center;justify-content:center;min-height:23px}}
+
+@media(max-width:760px){.topbar .account-button{min-width:94px!important}.topbar .account-button>span:last-child{display:inline!important;font-size:10px;white-space:nowrap;max-width:76px;overflow:hidden;text-overflow:ellipsis}.topbar .topbar-button[data-action="mood-picker"]{min-width:42px;padding:8px}}
+@media(max-width:760px){.topbar .topbar-button [data-of-icon]{display:inline-flex!important;align-items:center;justify-content:center}.topbar .topbar-button [data-of-icon] .of-icon{width:18px;height:18px}}
