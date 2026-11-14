@@ -601,3 +601,31 @@
 
 @media(max-width:760px){.topbar .account-button{min-width:94px!important}.topbar .account-button>span:last-child{display:inline!important;font-size:10px;white-space:nowrap;max-width:76px;overflow:hidden;text-overflow:ellipsis}.topbar .topbar-button[data-action="mood-picker"]{min-width:42px;padding:8px}}
 @media(max-width:760px){.topbar .topbar-button [data-of-icon]{display:inline-flex!important;align-items:center;justify-content:center}.topbar .topbar-button [data-of-icon] .of-icon{width:18px;height:18px}}
+
+/* Offframe V7.1: compact, content-sized maker message in the desktop sidebar. */
+@media (min-width: 761px) {
+  .artist-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 14px 15px;
+    border-radius: 13px;
+  }
+  .artist-cta .dark-eyebrow {
+    max-width: 100%;
+    font-size: 9px;
+    line-height: 1.45;
+    letter-spacing: 1.25px;
+  }
+  .artist-cta h3 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.23;
+    letter-spacing: -0.55px;
+  }
+}
