@@ -1,4 +1,4 @@
-/* OFFFRAME v8.0 — local-only design preview. Fictional demo artists and posts are not
+/* OFFFRAME v8.1 — local-only design preview. Fictional demo artists and posts are not
    live accounts, priced works are illustrative asking prices, and interaction counts
    reflect only this browser. Archive metadata is separate from social identities.
    Sign-in is a role preview, NOT authentication, and stores no credentials. */
@@ -42,6 +42,7 @@ function setSlideDetailMode(slide,mode){
  slide.classList.toggle('is-compact',compact);
  slide.querySelector('.slide-compact-bar')?.setAttribute('aria-hidden',String(!compact));
  slide.querySelector('.slide-meta')?.setAttribute('aria-hidden',String(compact));
+ slide.querySelector('.slide-actions')?.setAttribute('aria-hidden',String(compact));
 }
 function focusedSlide(){
  const feed=$('#swipe-feed');if(!feed)return null;
@@ -221,7 +222,7 @@ function renderFeed(){
       </button>
       <div class="slide-compact-nav"><button class="gallery-arrow" data-prev="${galleryKey}" aria-label="Previous artwork">${icon('left')}</button><button class="gallery-arrow" data-next="${galleryKey}" aria-label="Next artwork">${icon('right')}</button></div>
     </div>
-    <div class="slide-actions"><button class="slide-action ${activeLike?'on':''}" data-like="${w.id}" aria-label="Like artwork"><span class="round-action">${icon('heart')}</span><span>Like</span></button>
+    <div class="slide-actions" aria-hidden="${feedOverlay.activeKey===galleryKey&&feedOverlay.mode==='compact'?'true':'false'}"><button class="slide-action ${activeLike?'on':''}" data-like="${w.id}" aria-label="Like artwork"><span class="round-action">${icon('heart')}</span><span>Like</span></button>
      <button class="slide-action ${activeFav?'on':''}" data-favorite="${w.id}" aria-label="Add to favorites or collection"><span class="round-action">${icon('bookmark')}</span><span>Favorites</span></button>
      <button class="slide-action" data-comments="${w.id}" aria-label="Read comments"><span class="round-action">${icon('comments')}</span><span>Comment</span></button>
      <button class="slide-action" data-less="${a.id}" aria-label="Show less of this artist"><span class="round-action">${icon('close')}</span><span>Less</span></button></div>

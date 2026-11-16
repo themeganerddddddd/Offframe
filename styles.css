@@ -634,7 +634,12 @@
 .slide-compact-nav .gallery-arrow:hover{background:rgba(255,255,255,.23)}
 .slide-compact-nav .gallery-arrow:focus-visible{outline:2px solid #ffc1b8;outline-offset:2px}
 .slide-compact-nav .gallery-arrow .of-icon{width:17px;height:17px}
-.swipe-slide.is-compact .slide-actions{opacity:.81;transition:opacity .25s ease}
+/* Hide the engagement rail together with the full description so art remains unobstructed. */
+.swipe-slide .slide-actions{transition:opacity .24s ease,visibility .24s ease}
+.swipe-slide.is-compact .slide-actions{opacity:0;visibility:hidden;pointer-events:none}
+.swipe-slide.is-compact .slide-compact-bar{right:28px}
+@media(max-width:760px){.swipe-slide.is-compact .slide-compact-bar{right:15px}}
+@media(max-width:350px){.swipe-slide.is-compact .slide-compact-bar{right:9px}}
 @media(max-width:760px){
  .slide-compact-bar{left:15px;right:72px;bottom:19px;gap:7px}
  .slide-compact-trigger{padding:9px 10px;min-height:62px;border-radius:11px}
@@ -646,4 +651,4 @@
  .slide-compact-nav .gallery-arrow .of-icon{width:14px;height:14px}
 }
 @media(max-width:350px){.slide-compact-bar{right:65px;left:9px;gap:3px}.slide-compact-trigger{padding:8px}.slide-compact-nav{gap:2px}.slide-compact-nav .gallery-arrow{width:26px;height:26px}}
-@media(prefers-reduced-motion:reduce){.swipe-slide .slide-shade,.swipe-slide .slide-meta,.slide-compact-bar,.swipe-slide .slide-top{transition:none}}
+@media(prefers-reduced-motion:reduce){.swipe-slide .slide-shade,.swipe-slide .slide-meta,.slide-compact-bar,.swipe-slide .slide-top,.swipe-slide .slide-actions{transition:none}}
