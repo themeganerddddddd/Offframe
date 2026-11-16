@@ -707,3 +707,7 @@
 .archive-cover-type strong{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(35px,5.1vw,66px);font-weight:500;letter-spacing:-1.5px;line-height:1.02}
 .archive-cover-type small{font:600 11px 'DM Sans',sans-serif;letter-spacing:1.1px;color:#eee0da}
 @media(max-width:760px){.profile-banner.archive-cover{height:160px;min-height:160px}.archive-cover-type{top:18px;left:17px;gap:9px}.archive-cover-type strong{font-size:38px}.archive-cover-type span{font-size:8px}.archive-cover-type small{font-size:9px}}
+
+/* Keep full movement names legible in two-column mobile cards. */
+@media(max-width:600px){.movement-card strong{font-size:21px;letter-spacing:-.55px;overflow-wrap:normal;word-break:normal}.movement-card{padding:15px 14px;min-height:170px}}
+@media(max-width:360px){.movement-card strong{font-size:19px}}
