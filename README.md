@@ -23,3 +23,8 @@ Authentication is simulated; comments, likes, follows and profile edits remain i
 ## QA
 
 Tested with headless Chromium at desktop and 390px mobile: touch swipe changes artwork, comment sheet opens, submissions persist, owner Edit Profile enters the live editor, mood filters render, and no uncaught JS errors were observed.
+
+
+## V8: Art-first discovery captions
+
+On a new artist in Explore, full details are displayed for 3 seconds and then shrink to a discreet artist-and-artwork label. Tap anywhere on the artwork to collapse early. Tap the compact label to reopen the complete information (until dismissed). Swiping between artworks by the same creator stays in compact mode; navigation controls, actions, and accessible labels remain available. Artwork uses contain fit with a blurred background so no edge of a work is cropped.

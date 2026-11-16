@@ -1,4 +1,4 @@
-/* OFFFRAME v7.0 — local-only design preview. Fictional demo artists and posts are not
+/* OFFFRAME v8.0 — local-only design preview. Fictional demo artists and posts are not
    live accounts, priced works are illustrative asking prices, and interaction counts
    reflect only this browser. Archive metadata is separate from social identities.
    Sign-in is a role preview, NOT authentication, and stores no credentials. */
@@ -34,6 +34,56 @@ const icon=(name,cls='')=>`<svg aria-hidden="true" class="of-icon ${cls}" viewBo
 
 const get=(k,f)=>{try{return JSON.parse(localStorage.getItem('offframe_v2_'+k))??f}catch{return f}};
 const put=(k,v)=>{try{localStorage.setItem('offframe_v2_'+k,JSON.stringify(v))}catch{}};
+// Feed details are intentionally transient: first look lasts 3s, then artwork gets the space.
+const feedOverlay={activeKey:null,activeArtist:null,mode:'full',timer:null,raf:0,suppressClickUntil:0,suspendUntil:0,suspendTimer:null};
+function setSlideDetailMode(slide,mode){
+ if(!slide)return;
+ const compact=mode==='compact';
+ slide.classList.toggle('is-compact',compact);
+ slide.querySelector('.slide-compact-bar')?.setAttribute('aria-hidden',String(!compact));
+ slide.querySelector('.slide-meta')?.setAttribute('aria-hidden',String(compact));
+}
+function focusedSlide(){
+ const feed=$('#swipe-feed');if(!feed)return null;
+ const box=feed.getBoundingClientRect();const center=box.top+box.height/2;
+ let chosen=null,closest=Infinity;
+ $$('.swipe-slide',feed).forEach(slide=>{
+  const r=slide.getBoundingClientRect();const distance=Math.abs((r.top+r.bottom)/2-center);
+  if(distance<closest){closest=distance;chosen=slide;}
+ });
+ return chosen;
+}
+function collapseFeedDetails(key=feedOverlay.activeKey){
+ if(!key||key!==feedOverlay.activeKey)return;
+ clearTimeout(feedOverlay.timer);feedOverlay.timer=null;feedOverlay.mode='compact';
+ const slide=$('#swipe-feed')?.querySelector(`[data-gallery-key="${CSS.escape(key)}"]`);
+ setSlideDetailMode(slide,'compact');
+}
+function expandFeedDetails(key){
+ const slide=$('#swipe-feed')?.querySelector(`[data-gallery-key="${CSS.escape(key)}"]`);
+ if(!slide)return;
+ clearTimeout(feedOverlay.timer);feedOverlay.timer=null;
+ feedOverlay.activeKey=key;feedOverlay.activeArtist=slide.dataset.slide;feedOverlay.mode='full';
+ setSlideDetailMode(slide,'full');
+ // Explicitly reopened details stay visible until dismissed or the user moves on.
+}
+function syncFocusedSlide(){
+ if(state.page!=='discover'||performance.now()<feedOverlay.suspendUntil)return;
+ const slide=focusedSlide();if(!slide)return;
+ const key=slide.dataset.galleryKey;
+ if(feedOverlay.activeKey===key){setSlideDetailMode(slide,feedOverlay.mode);return;}
+ clearTimeout(feedOverlay.timer);feedOverlay.timer=null;
+ const sameArtist=feedOverlay.activeArtist===slide.dataset.slide;
+ feedOverlay.activeKey=key;feedOverlay.activeArtist=slide.dataset.slide;
+ feedOverlay.mode=sameArtist?'compact':'full';
+ setSlideDetailMode(slide,feedOverlay.mode);
+ if(!sameArtist){feedOverlay.timer=setTimeout(()=>collapseFeedDetails(key),3000);}
+}
+function scheduleFocusedSlide(){
+ if(feedOverlay.raf)return;
+ feedOverlay.raf=requestAnimationFrame(()=>{feedOverlay.raf=0;syncFocusedSlide();});
+}
+
 const state={artistStyles:get('artistStyles',{}),groupStyles:get('groupStyles',{}),groupEdits:get('groupEdits',{}),designSession:null,demoOrders:get('demoOrders',[]),commissionSettings:get('commissionSettings',{}),listingOverrides:get('listingOverrides',{}),page:'discover',feed:'all',artist:'nia',artistTab:'overview',group:'soft',groupTab:'posts',communityTab:'for-you',savedTab:'favorites',account:get('account',null),artistEdits:get('artistEdits',{}),postViews:get('postViews',{}),artworkViews:get('artworkViews',{}),collectorProfile:get('collectorProfile',{name:'Your corner',handle:'@you',bio:'Collecting the things that make me look twice.'}),communityFocus:'',communityShuffle:0,themes:get('themes',{}),liked:get('liked',[]),favorites:get('favorites',[]),collections:get('collections',{'Favorites':[]}),following:get('following',[]),joined:get('joined',[]),showLess:get('showLess',[]),comments:get('comments',{}),posts:get('posts',[]),slideIndexes:{},mood:'',lastPage:'discover'};
 if(!state.collections.Favorites)state.collections.Favorites=[];
 const works=[
@@ -125,7 +175,7 @@ function byId(id){return works.find(w=>w.id===id)}
 function byGroup(id){return groups.find(g=>g.id===id)}
 function save(k){put(k,state[k])}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2600)}
-function markPage(page){if(!$('#page-'+page))page='discover';if(state.designSession&&page!==(state.designSession.kind==='artist'?'artist':'group')){state.designSession=null;}state.page=page;$$('.page').forEach(el=>el.classList.toggle('is-active',el.id==='page-'+page));$$('[data-page]').forEach(el=>el.classList.toggle('selected',el.dataset.page===page));$$('.bottom-link').forEach(el=>el.classList.toggle('active',el.dataset.page===page||(el.dataset.action==='go-profile'&&(page==='me'||(page==='artist'&&ownerOf(state.artist))||(page==='group'&&ownerOfGroup(state.group))))));$('#topbar-label').textContent={discover:'ART FOR THE CURIOUS',moods:'FIND YOUR FEELING',search:'LOOK A LITTLE CLOSER',community:'FIND YOUR PEOPLE',saved:'YOUR PRIVATE MUSEUM',me:'YOUR CREATIVE CORNER',artist:'THE ARTIST UNIVERSE',group:'A PLACE TO BELONG'}[page];if(page==='discover')renderFeed();if(page==='moods')renderMoods();if(page==='search')renderSearch();if(page==='community')renderCommunity();if(page==='saved')renderSaved();if(page==='me')renderMe();if(page==='artist')renderArtist();if(page==='group')renderGroup();const root=$('#page-'+page);if(root)root.scrollTop=0;updateAccountUI();setTimeout(()=>{observePostViews();observeArtworkViews()},90)}
+function markPage(page){if(!$('#page-'+page))page='discover';if(page!=='discover'){clearTimeout(feedOverlay.timer);feedOverlay.activeKey=null;feedOverlay.activeArtist=null;}if(state.designSession&&page!==(state.designSession.kind==='artist'?'artist':'group')){state.designSession=null;}state.page=page;$$('.page').forEach(el=>el.classList.toggle('is-active',el.id==='page-'+page));$$('[data-page]').forEach(el=>el.classList.toggle('selected',el.dataset.page===page));$$('.bottom-link').forEach(el=>el.classList.toggle('active',el.dataset.page===page||(el.dataset.action==='go-profile'&&(page==='me'||(page==='artist'&&ownerOf(state.artist))||(page==='group'&&ownerOfGroup(state.group))))));$('#topbar-label').textContent={discover:'ART FOR THE CURIOUS',moods:'FIND YOUR FEELING',search:'LOOK A LITTLE CLOSER',community:'FIND YOUR PEOPLE',saved:'YOUR PRIVATE MUSEUM',me:'YOUR CREATIVE CORNER',artist:'THE ARTIST UNIVERSE',group:'A PLACE TO BELONG'}[page];if(page==='discover')renderFeed();if(page==='moods')renderMoods();if(page==='search')renderSearch();if(page==='community')renderCommunity();if(page==='saved')renderSaved();if(page==='me')renderMe();if(page==='artist')renderArtist();if(page==='group')renderGroup();const root=$('#page-'+page);if(root)root.scrollTop=0;updateAccountUI();setTimeout(()=>{observePostViews();observeArtworkViews()},90)}
 function openArtist(id){state.lastPage=state.page;state.artist=id;state.artistTab='overview';markPage('artist')}
 function openGroup(id){state.lastPage='community';state.group=id;state.groupTab='posts';markPage('group')}
 function switchFeed(feed){state.feed=feed;markPage('discover')}
@@ -155,15 +205,21 @@ function renderFeed(){
   const n=Math.max(0,Math.min(aw.length-1,state.slideIndexes[galleryKey]??defaultIndex));
   const w=aw[n];if(!w)return '';
   const activeLike=state.liked.includes(w.id),activeFav=state.favorites.includes(w.id);
-  const image=w.image?`<img class="slide-image" src="${clean(w.image)}" alt="${clean(w.title)}" draggable="false" loading="${cardIndex>2?'lazy':'eager'}" onerror="this.style.display='none'">`:'<div class="slide-image" style="background:radial-gradient(circle at 30% 27%,#7f647a,#424653 65%,#24242c)"></div>';
+  const image=w.image?`<img class="slide-backdrop" src="${clean(w.image)}" alt="" aria-hidden="true" loading="${cardIndex>2?'lazy':'eager'}"><img class="slide-image" src="${clean(w.image)}" alt="${clean(w.title)}" draggable="false" loading="${cardIndex>2?'lazy':'eager'}" onerror="this.style.display='none'">`:'<div class="slide-image" style="background:radial-gradient(circle at 30% 27%,#7f647a,#424653 65%,#24242c)"></div>';
   const label=release?`NEW RELEASE · ${dateCaption(w.releasedAt||release.releasedAt)}`:(a.archive?'HISTORIC ARTIST':'INDEPENDENT ARTIST');
-  return `<article class="swipe-slide" data-slide="${a.id}" data-gallery-key="${galleryKey}" data-work="${w.id}" data-work-impression="${w.id}" data-release="${release?'yes':'no'}" aria-label="${clean(a.name)} artwork ${n+1} of ${aw.length}">${image}<div class="slide-shade"></div>
+  return `<article class="swipe-slide ${feedOverlay.activeKey===galleryKey&&feedOverlay.mode==='compact'?'is-compact':''}" data-slide="${a.id}" data-gallery-key="${galleryKey}" data-work="${w.id}" data-work-impression="${w.id}" data-release="${release?'yes':'no'}" aria-label="${clean(a.name)} artwork ${n+1} of ${aw.length}">${image}<div class="slide-shade"></div>
     <div class="slide-top"><span class="slide-tag">${label} · ${clean(a.style)}</span><span class="slide-progress">${n+1} / ${aw.length}</span></div>
     <div class="slide-meta"><div class="slide-micro">${clean(a.tagline.toUpperCase())}</div>
      <h2><button class="artist-name-link" data-artist="${a.id}" aria-label="Open ${clean(a.name)}'s artist profile">${clean(a.name)} ${icon('arrow')}</button></h2>
      <div class="slide-place">${clean(a.location)}</div><div class="slide-description">${clean(a.bio)}</div>
      <div class="work-title"><span class="work-name">${clean(w.title)} · ${clean(w.year)}</span>${askingLabel(w)?`<span class="work-price">${askingLabel(w)}</span>`:''}</div>
      <div class="slide-arrows"><button class="gallery-arrow" data-prev="${galleryKey}" aria-label="Previous artwork">${icon('left')}</button><span>Swipe to explore works</span><button class="gallery-arrow" data-next="${galleryKey}" aria-label="Next artwork">${icon('right')}</button></div>
+    </div>
+    <div class="slide-compact-bar" aria-hidden="${feedOverlay.activeKey===galleryKey&&feedOverlay.mode==='compact'?'false':'true'}">
+      <button class="slide-compact-trigger" data-overlay-expand="${galleryKey}" type="button" aria-label="Show full details for ${clean(w.title)} by ${clean(a.name)}">
+        <span class="compact-artist">${clean(a.name)}</span><strong class="compact-work">${clean(w.title)}</strong><span class="compact-more">View details ${icon('arrow')}</span>
+      </button>
+      <div class="slide-compact-nav"><button class="gallery-arrow" data-prev="${galleryKey}" aria-label="Previous artwork">${icon('left')}</button><button class="gallery-arrow" data-next="${galleryKey}" aria-label="Next artwork">${icon('right')}</button></div>
     </div>
     <div class="slide-actions"><button class="slide-action ${activeLike?'on':''}" data-like="${w.id}" aria-label="Like artwork"><span class="round-action">${icon('heart')}</span><span>Like</span></button>
      <button class="slide-action ${activeFav?'on':''}" data-favorite="${w.id}" aria-label="Add to favorites or collection"><span class="round-action">${icon('bookmark')}</span><span>Favorites</span></button>
@@ -172,19 +228,24 @@ function renderFeed(){
     </article>`;
  }).join('');
  setTimeout(observeArtworkViews,100);
+ scheduleFocusedSlide();
 }
 function refreshFeedInPlace(){const feed=$('#swipe-feed');const top=feed.scrollTop;renderFeed();feed.scrollTop=top;}
 function moveArtwork(key,by){
  const [artistId,releaseId]=key.split(':');const ws=artistWorks(artistId);if(ws.length<2)return;
  const defaultIndex=releaseId?Math.max(0,ws.findIndex(w=>w.id===releaseId)):0;
  const idx=state.slideIndexes[key]??defaultIndex;
+ // Clicking an arrow can briefly trigger browser scroll-snap while it receives focus.
+ // Keep the selected artist in focus and retain the intentionally compact caption.
+ clearTimeout(feedOverlay.timer);feedOverlay.timer=null;
+ feedOverlay.activeKey=key;feedOverlay.activeArtist=artistId;feedOverlay.mode='compact';
+ suspendOverlaySync();
  state.slideIndexes[key]=(idx+by+ws.length)%ws.length;
  const feed=$('#swipe-feed'),current=feed.querySelector(`[data-gallery-key="${CSS.escape(key)}"]`);
- const oldPosition=current?current.getBoundingClientRect().top-feed.getBoundingClientRect().top:feed.scrollTop;
- const scroll=feed.scrollTop;
- renderFeed();feed.scrollTop=scroll;
+ const targetScroll=current?feed.scrollTop+current.getBoundingClientRect().top-feed.getBoundingClientRect().top:feed.scrollTop;
+ renderFeed();feed.scrollTop=targetScroll;
  const updated=feed.querySelector(`[data-gallery-key="${CSS.escape(key)}"]`);
- if(updated)feed.scrollTop+=updated.getBoundingClientRect().top-feed.getBoundingClientRect().top-oldPosition;
+ if(updated)setSlideDetailMode(updated,'compact');
 }
 
 function toggleLike(id){const i=state.liked.indexOf(id);i>=0?state.liked.splice(i,1):state.liked.push(id);save('liked');toast(i>=0?'Like removed':'Liked');if(state.page==='discover')refreshFeedInPlace();if(state.page==='saved')renderSaved();if(state.page==='artist')renderArtist()}
@@ -520,7 +581,15 @@ function observePostViews(){
  $$('.page.is-active .post-card[data-post]').forEach(el=>observePostViews.io.observe(el));
 }
 function openInfo(){setModal(`<span class="eyebrow rose">AN OPEN CREATIVE UNIVERSE</span><h2>Art should travel. Artists shouldn't disappear.</h2><p>Offframe is an art-first social network concept with vertical discovery, personal collections, persistent communities, creator attribution, and a future verified market. Artwork buying is a simulated local flow in this version.</p><p>General posts remain open; special verification is for authorship claims and selling. Museum artists are archived records, not claimed accounts.</p><p>This interactive demo uses illustrative images and local browser storage. No real social membership or sales are operating.</p>`)}
-function handleClick(e){const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+function handleClick(e){
+ const detailButton=e.target.closest('[data-overlay-expand]');
+ if(detailButton){expandFeedDetails(detailButton.dataset.overlayExpand);return;}
+ const touchedSlide=e.target.closest('.swipe-slide');
+ if(touchedSlide&&!e.target.closest('button,a,input,select,textarea,[role=button]')){
+  if(Date.now()>=feedOverlay.suppressClickUntil&&touchedSlide.dataset.galleryKey===feedOverlay.activeKey)collapseFeedDetails();
+  return;
+ }
+ const b=e.target.closest('button');if(!b)return;const d=b.dataset;
  if(d.page){closeModal();markPage(d.page);return}
  if(d.feed){closeModal();switchFeed(d.feed);return}
  if(d.artist){closeModal();openArtist(d.artist);return}
@@ -597,7 +666,15 @@ document.addEventListener('change',async e=>{const input=e.target;if(input.id===
 document.addEventListener('paste',pasteInlinePlain);
 
 // Horizontal image swipes within each vertical artist card; buttons and vertical scrolling are unaffected.
-const swipeFeed=$('#swipe-feed');let gesture=null;
+const swipeFeed=$('#swipe-feed');let gesture=null;swipeFeed.addEventListener('scroll',scheduleFocusedSlide,{passive:true});
+function suspendOverlaySync(){
+ feedOverlay.suspendUntil=performance.now()+500;
+ clearTimeout(feedOverlay.suspendTimer);
+ feedOverlay.suspendTimer=setTimeout(()=>{feedOverlay.suspendUntil=0;syncFocusedSlide();},540);
+}
+swipeFeed.addEventListener('pointerdown',e=>{
+ if(e.target.closest('[data-prev],[data-next],[data-overlay-expand]'))suspendOverlaySync();
+},{passive:true});
 swipeFeed.addEventListener('pointerdown',e=>{
  if(e.pointerType!=='touch'&&e.pointerType!=='pen')return;
  if(e.target.closest('button,input,a,textarea'))return;
@@ -607,7 +684,7 @@ swipeFeed.addEventListener('pointerdown',e=>{
 swipeFeed.addEventListener('pointerup',e=>{
  if(!gesture||gesture.id!==e.pointerId)return;
  const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y,key=gesture.key;gesture=null;
- if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.2){moveArtwork(key,dx<0?1:-1);}
+ if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.2){feedOverlay.suppressClickUntil=Date.now()+550;moveArtwork(key,dx<0?1:-1);}
 },{passive:true});
 swipeFeed.addEventListener('pointercancel',()=>{gesture=null},{passive:true});
 swipeFeed.addEventListener('touchmove',e=>{if(e.touches.length>1){e.preventDefault()}},{passive:false});
