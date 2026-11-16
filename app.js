@@ -131,6 +131,9 @@ const archiveSeeds={
  klimt:{id:'klimt',name:'Gustav Klimt',handle:'Historic artist',location:'Vienna, Austria',style:'Vienna Secession',bio:'Ornament, portraiture and symbolic motifs woven into a singular, decorative visual world.',tagline:'Patterns with a pulse.',about:'Gustav Klimt (1862–1918) was a founding figure of the Vienna Secession, associated with expressive portraiture, symbolism and highly decorative surfaces.',era:'1862–1918',region:'Austria',practice:'Painting · drawing · design',theme:'archive',archive:true,mood:['Vibrant','Dreamlike'],discoveryTags:['vienna secession','art nouveau','symbolism','ornament','portraits','pattern','design']}
 };
 Object.assign(artists,archiveSeeds);
+// First pinned open-access record, verified against the museum artwork API.
+// Further works are imported gradually from confirmed public-domain results.
+works.push({id:'aic11723',museumId:11723,artist:'morisot',title:'Woman at Her Toilette',year:'1875–1880',image:'https://www.artic.edu/iiif/2/78c80988-6524-cec7-c661-a4c0a706d06f/full/843,/0/default.jpg',style:'Impressionism',medium:'Oil on canvas',tags:['impressionism','portraits','women artists','everyday life','painting'],source:'Art Institute of Chicago'});
 // Bring the first archive profiles into the same coherent taxonomy as the new seeds.
 const archiveContexts={
  cassatt:['1844–1926','United States · France','Painting · printmaking',['impressionism','portraits','women artists','motherhood','everyday life','printmaking']],

@@ -17,3 +17,5 @@ The current version remains a frontend-only demo. Sign-in, collections, likes, c
 - Museum catalog results are verified against attributed artist name, deduplicated, and cached in browser localStorage for 24 hours (`offframe_v2_museum_v9`).
 - Images are streamed from the museum IIIF service, not invented or sold.
 - To deploy: Vercel preset Other, root `/`, no build command.
+
+One verified Berthe Morisot artwork, *Woman at Her Toilette* (Art Institute of Chicago, record 11723), is pinned in the archive. Additional public-domain museum records are loaded progressively online.
