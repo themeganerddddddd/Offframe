@@ -1,30 +1,19 @@
-# Offframe V7 — Swipe & Community UI Refinements
+# Offframe V9 — Growing the historical archive
 
-This is the updated source code for the existing Offframe V6 prototype. No framework installation required.
+Offframe's mobile-first static prototype now includes eight additional historical artist profiles, editorial movement cards, a searchable tag library, and archive-specific artist dossiers. Museum images and metadata are loaded only from public-domain records from the Art Institute of Chicago. If the museum API is unavailable, a clearly labeled archive-in-progress state appears instead of fabricated artwork.
 
-## Preview / deployment
+The historical profiles are discovery entries, **not** artist-operated accounts, impersonations, sellers, or simulated social metrics. Artist biographies and discovery tags are editorial, not museum-attributed metadata. Per-artwork title, date, medium and image come from museum catalog records. When available, each artwork links to its museum record.
 
-Open `index.html` in a local static web server or deploy the directory to Vercel using Framework Preset **Other** and no build command. The standalone file `offframe-v7-preview.html` works without a server and includes the images.
+## Preview
 
-### Changes from V6
+Open `index.html` from a local HTTP server, or use the standalone offline-bundled HTML. Choose **Moods** to view the new movements and tag cloud, then select a historical artist profile; **Archives** in Explore shows the added archive in an art-first feed once public-domain catalog images are available. Search accepts styles, mediums, tag queries and region.
 
-- Replaced decorative icon glyphs with consistent SVG outline icons in main navigation and discovery actions.
-- Redesigned mood categories into art-led, editorial tiles without emoji badges.
-- Horizontal touch swiping switches artworks from the same artist; vertical scrolling continues through artist cards. Keyboard arrows and on-screen previous/next controls also work. Includes New Releases cards.
-- Artwork images on the immersive Explore screen do not open zoom controls; pinch is disabled only within this feed, not across the rest of the website.
-- Comments open in a TikTok-inspired overlay sheet, without navigating to a separate page. Comments persist locally in this demo.
-- The signed-in artist's public profile shows a prominent **Edit profile** button in the primary action row. The existing live editor remains intact.
-- Existing portfolio, commissions, community feeds, market preview, favorites, and private stats are retained.
+The current version remains a frontend-only demo. Sign-in, collections, likes, comment posting, and transactions are not connected to a production backend. No real sales or verification are represented.
 
-## Important prototype limitations
+## Technical
 
-Authentication is simulated; comments, likes, follows and profile edits remain in the visitor's browser. Purchases are demonstration interactions and do not process payments. Museum data is fetched from the Art Institute of Chicago when available. Artist images and profiles used in the demonstration are illustrative.
-
-## QA
-
-Tested with headless Chromium at desktop and 390px mobile: touch swipe changes artwork, comment sheet opens, submissions persist, owner Edit Profile enters the live editor, mood filters render, and no uncaught JS errors were observed.
-
-
-## V8: Art-first discovery captions
-
-On a new artist in Explore, full details are displayed for 3 seconds and then shrink to a discreet artist-and-artwork label. Tap anywhere on the artwork to collapse early. Tap the compact label to reopen the complete information (until dismissed). Swiping between artworks by the same creator stays in compact mode; navigation controls, actions, and accessible labels remain available. Artwork uses contain fit with a blurred background so no edge of a work is cropped.
+- Static HTML, CSS, JS, and local design images; no framework.
+- Public Art Institute of Chicago API: `https://api.artic.edu/api/v1/artworks/search`; only entries with `is_public_domain: true` and `image_id` are displayed as artworks.
+- Museum catalog results are verified against attributed artist name, deduplicated, and cached in browser localStorage for 24 hours (`offframe_v2_museum_v9`).
+- Images are streamed from the museum IIIF service, not invented or sold.
+- To deploy: Vercel preset Other, root `/`, no build command.

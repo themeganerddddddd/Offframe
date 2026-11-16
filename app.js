@@ -1,4 +1,4 @@
-/* OFFFRAME v8.1 — local-only design preview. Fictional demo artists and posts are not
+/* OFFFRAME v9.0 — local-only design preview. Fictional demo artists and posts are not
    live accounts, priced works are illustrative asking prices, and interaction counts
    reflect only this browser. Archive metadata is separate from social identities.
    Sign-in is a role preview, NOT authentication, and stores no credentials. */
@@ -118,6 +118,56 @@ const artists={
  hokusai:{id:'hokusai',name:'Katsushika Hokusai',handle:'Historic artist',location:'Edo, Japan',style:'Japanese prints',bio:'Waves, mountains and everyday worlds expressed in unforgettable graphic compositions.',tagline:'The world in a single line.',about:'Historical artist archive entry with museum-catalog artwork metadata. Not a claimed account, live creator profile or sale listing.',theme:'archive',archive:true,mood:['Nature','Vibrant']},
  monet:{id:'monet',name:'Claude Monet',handle:'Historic artist',location:'Giverny, France',style:'Impressionism',bio:'Light, water, changing weather, and a painter’s life spent watching a garden.',tagline:'Chasing the light.',about:'Historical artist archive entry; the museum catalog will be expanded and deduplicated before launch.',theme:'archive',archive:true,mood:['Calm','Nature']}
 };
+// V9 archive seeds: biographies, contexts and editorial discovery tags. Artwork images
+// are never generated or attributed without a public-domain museum record.
+const archiveSeeds={
+ morisot:{id:'morisot',name:'Berthe Morisot',handle:'Historic artist',location:'Paris, France',style:'Impressionism',bio:'A central figure in Impressionism, Morisot painted interiors, gardens, portraits and the quick changes of modern life.',tagline:'Brushstrokes that catch a passing moment.',about:'Berthe Morisot (1841–1895) exhibited with the Impressionists and explored the relationships between people, domestic life and their surroundings. Her compositions often hold an immediacy that feels almost like a glimpse.',era:'1841–1895',region:'France',practice:'Painting · watercolor',theme:'archive',archive:true,mood:['Intimate','Calm'],discoveryTags:['impressionism','portraits','women artists','gardens','everyday life','color','painting']},
+ hiroshige:{id:'hiroshige',name:'Utagawa Hiroshige',handle:'Historic artist',location:'Edo (Tokyo), Japan',style:'Ukiyo-e',bio:'A master of Japanese landscape prints whose rain, rivers, bridges and roads became lasting images of travel and place.',tagline:'Roads, rain, mountains, weather.',about:'Utagawa Hiroshige (1797–1858) was a Japanese ukiyo-e print designer, celebrated for landscape series including The Fifty-three Stations of the Tōkaidō and One Hundred Famous Views of Edo.',era:'1797–1858',region:'Japan',practice:'Woodblock print · landscape',theme:'archive',archive:true,mood:['Nature','Calm'],discoveryTags:['ukiyo-e','japanese prints','woodblock','landscape','rain','travel','nature','printmaking']},
+ homer:{id:'homer',name:'Winslow Homer',handle:'Historic artist',location:'Prouts Neck, Maine · United States',style:'American Realism',bio:'Sea spray, working lives and changing weather painted with a remarkable feeling for light and strength.',tagline:'Where the sea meets the human world.',about:'Winslow Homer (1836–1910) began as an illustrator before turning to oil and watercolor. His late marine paintings drew on the Atlantic coast and lives shaped by it.',era:'1836–1910',region:'United States',practice:'Painting · watercolor · illustration',theme:'archive',archive:true,mood:['Nature','Melancholic'],discoveryTags:['american realism','realism','seascape','watercolor','nature','landscape','working life']},
+ redon:{id:'redon',name:'Odilon Redon',handle:'Historic artist',location:'Bordeaux / Paris, France',style:'Symbolism',bio:'Dreamlike figures, luminous flowers and shadowy lithographs that look into the inner life.',tagline:'Images from the edge of dreaming.',about:'Odilon Redon (1840–1916) explored the possibilities of imagination through charcoal drawings, prints, pastels and painting. His early dark works and later radiant colors occupy a distinctive place in Symbolism.',era:'1840–1916',region:'France',practice:'Lithography · charcoal · pastel',theme:'archive',archive:true,mood:['Dreamlike','Melancholic'],discoveryTags:['symbolism','dreamlike','prints','lithography','fantasy','flowers','drawing']},
+ kollwitz:{id:'kollwitz',name:'Käthe Kollwitz',handle:'Historic artist',location:'Berlin, Germany',style:'Expressionism',bio:'Powerful prints and drawings about grief, solidarity, working families and the human cost of violence.',tagline:'A line that refuses to look away.',about:'Käthe Kollwitz (1867–1945) worked in etching, lithography, woodcut and sculpture. Her figures draw attention to loss, labor and social struggle with direct emotional force.',era:'1867–1945',region:'Germany',practice:'Etching · lithography · woodcut',theme:'archive',archive:true,mood:['Intimate','Melancholic'],discoveryTags:['expressionism','printmaking','woodcut','social themes','portrait','drawing','lithography']},
+ lautrec:{id:'lautrec',name:'Henri de Toulouse-Lautrec',handle:'Historic artist',location:'Paris, France',style:'Post-Impressionism',bio:'Posters, performers and nightlife: lively compositions at the crossroads of painting and graphic design.',tagline:'The city after dark, in bold lines.',about:'Henri de Toulouse-Lautrec (1864–1901) captured late-19th-century Parisian performance and social scenes in posters, lithographs, drawings and paintings.',era:'1864–1901',region:'France',practice:'Lithography · poster · painting',theme:'archive',archive:true,mood:['Vibrant','Intimate'],discoveryTags:['post-impressionism','lithography','posters','printmaking','city life','nightlife','graphic design']},
+ pissarro:{id:'pissarro',name:'Camille Pissarro',handle:'Historic artist',location:'St. Thomas / France',style:'Impressionism',bio:'An observer of fields, villages and city streets, Pissarro returned again and again to changing light.',tagline:'The slow rhythm of a place.',about:'Camille Pissarro (1830–1903), born on St. Thomas in the Caribbean, became a pivotal Impressionist painter in France. His work spans rural landscapes and modern urban views.',era:'1830–1903',region:'Caribbean · France',practice:'Painting · printmaking',theme:'archive',archive:true,mood:['Nature','Calm'],discoveryTags:['impressionism','landscape','city life','rural life','light','painting','caribbean']},
+ klimt:{id:'klimt',name:'Gustav Klimt',handle:'Historic artist',location:'Vienna, Austria',style:'Vienna Secession',bio:'Ornament, portraiture and symbolic motifs woven into a singular, decorative visual world.',tagline:'Patterns with a pulse.',about:'Gustav Klimt (1862–1918) was a founding figure of the Vienna Secession, associated with expressive portraiture, symbolism and highly decorative surfaces.',era:'1862–1918',region:'Austria',practice:'Painting · drawing · design',theme:'archive',archive:true,mood:['Vibrant','Dreamlike'],discoveryTags:['vienna secession','art nouveau','symbolism','ornament','portraits','pattern','design']}
+};
+Object.assign(artists,archiveSeeds);
+// Bring the first archive profiles into the same coherent taxonomy as the new seeds.
+const archiveContexts={
+ cassatt:['1844–1926','United States · France','Painting · printmaking',['impressionism','portraits','women artists','motherhood','everyday life','printmaking']],
+ caillebotte:['1848–1894','France','Painting · urban life',['impressionism','city life','perspective','urban','rain','painting']],
+ cezanne:['1839–1906','France','Painting · still life',['post-impressionism','still life','landscape','geometry','color','painting']],
+ renoir:['1841–1919','France','Painting · portraiture',['impressionism','portraits','color','intimate','painting']],
+ seurat:['1859–1891','France','Painting · color theory',['pointillism','neo-impressionism','color theory','landscape','city life']],
+ vangogh:['1853–1890','Netherlands · France','Painting · drawing',['post-impressionism','landscape','portrait','color','expressive brushwork']],
+ hokusai:['1760–1849','Japan','Woodblock print · drawing',['ukiyo-e','japanese prints','woodblock','waves','landscape','printmaking']],
+ monet:['1840–1926','France','Painting · landscape',['impressionism','water lilies','gardens','light','landscape','nature']]
+};
+for(const [id,parts] of Object.entries(archiveContexts)){
+ const a=artists[id];Object.assign(a,{era:parts[0],region:parts[1],practice:parts[2],discoveryTags:parts[3]});
+}
+const archiveMovements=[
+ {name:'Impressionism',desc:'Light, fleeting moments & everyday life',tint:'moss'},
+ {name:'Post-Impressionism',desc:'Color, form & expressive new directions',tint:'amber'},
+ {name:'Ukiyo-e',desc:'Landscape & life in Japanese woodblock prints',tint:'blue'},
+ {name:'Pointillism',desc:'Tiny marks, optical color, surprising detail',tint:'plum'},
+ {name:'Symbolism',desc:'Inner worlds, metaphor & imagination',tint:'indigo'},
+ {name:'Expressionism',desc:'Emotion conveyed through mark & line',tint:'brick'},
+ {name:'American Realism',desc:'Observation, working life & the outdoors',tint:'slate'},
+ {name:'Vienna Secession',desc:'Decoration, pattern & modern design',tint:'gold'},
+ {name:'Printmaking',desc:'Woodblock, lithography, etching & editions',tint:'clay'},
+ {name:'Portraiture',desc:'Faces, identity & the human presence',tint:'berry'},
+ {name:'Landscape',desc:'Places, weather, gardens & open space',tint:'sage'},
+ {name:'Painting',desc:'Brushwork, pigment & visual expression',tint:'midnight'}
+];
+const archiveTags=['landscape','portrait','printmaking','woodblock','women artists','city life','color','gardens','still life','nature','social themes','dreamlike','light','watercolor','lithography','pattern','seascape','japanese prints','nightlife','graphic design'];
+const normArtText=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+function catalogDiscoveryTags(item,artist){
+ const title=normArtText(item.title),a=artists[artist],tags=new Set((a?.discoveryTags||[]).slice(0,5));
+ for(const [re,tag] of [[/portrait|head|woman|man|face|self-portrait/, 'portrait'],[/garden|flower|blossom/,'gardens'],[/wave|ocean|water|sea|harbor|river|lake/,'water'],[/street|bridge|paris|edo|city/,'city life'],[/landscape|forest|mountain|hill|shore/,'landscape'],[/night|moon|dark/,'night'],[/mother|child|family/,'family'],[/print|lithograph|etching|woodcut/,'printmaking']]){
+  if(re.test(title))tags.add(tag);
+ }
+ return [...tags].slice(0,8);
+}
 const groups=[
  {id:'soft',symbol:'SW',name:'the soft weird',handle:'@@the-soft-weird',tagline:'dreamy, strange, tender art',description:'A little corner for art that feels like an unfinished dream. Sketchbooks, odd found things, gentle surrealism and big feelings.',cover:'linear-gradient(125deg,#ab99ba,#e2b2ba 48%,#e5cbad)',topic:'Dreamlike',rules:['Credit artists and link to the original work when sharing.','Be curious and kind. Critique the work, not the person.','No spam, stolen art claims or unsolicited selling.']},
  {id:'studio',symbol:'SA',name:'studio after hours',handle:'@@studio-after-hours',tagline:'the messy middle is the point',description:'Works in progress, studio photos, material experiments, and the glorious trial-and-error of making things.',cover:'linear-gradient(135deg,#475a69,#738e93 55%,#dbad9d)',topic:'Making',rules:['Share process generously.','No copying someone else’s work without permission.','Support beginners.']},
@@ -196,7 +246,7 @@ function renderFeed(){
   items=artistSet.map(artist=>({artist,release:null}));
   if(f==='all')releases.forEach((w,i)=>items.splice(Math.min(2+i*2,items.length),0,{artist:artists[w.artist],release:w}));
  }
- items=items.filter(({artist})=>!state.showLess.includes(artist.id));
+ items=items.filter(({artist})=>!state.showLess.includes(artist.id)&&artistWorks(artist.id).length>0);
  if(state.mood)items=items.filter(({artist,release})=>artist.mood.some(m=>m.toLowerCase()===state.mood.toLowerCase())||release?.tags.includes(state.mood.toLowerCase()));
  if(!items.length){c.innerHTML='<div class="empty-feed"><div class="empty-card"><h2>Nothing to show just yet.</h2><p>Try another category or reset your preferences.</p><button class="pill coral" data-action="reset-less">Reset discovery</button></div></div>';return;}
  c.innerHTML=items.map(({artist:a,release},cardIndex)=>{
@@ -259,11 +309,14 @@ function newCollectionModal(id=''){setModal(`<span class="eyebrow rose">YOUR PER
 function renderMoods(){
  const visuals={Dreamlike:'violet.jpg',Vibrant:'sunroom.jpg',Calm:'soft-blue.jpg',Nature:'flowers.jpg',Intimate:'portrait-original.jpg',Melancholic:'landscape.jpg'};
  $('#moods-grid').innerHTML=moods.map((m,i)=>`<button class="mood-tile" data-mood="${m.name}" aria-label="Explore ${m.name} art"><img class="mood-art" src="${asset(visuals[m.name])}" alt="" loading="lazy"><span class="mood-number">${String(i+1).padStart(2,'0')} / MOOD</span><div class="mood-tile-copy"><h3>${m.name}</h3><p>${m.hint} ${icon('right')}</p></div></button>`).join('');
+ $('#movement-grid').innerHTML=archiveMovements.map((m,i)=>{const term=normArtText(m.name),matches=Object.values(artists).filter(a=>a.archive&&[a.style,a.practice,...(a.discoveryTags||[])].some(t=>normArtText(t).includes(term)));return `<button class="movement-card tint-${m.tint}" data-category="${clean(m.name)}" aria-label="Discover ${clean(m.name)}"><span class="movement-no">${String(i+1).padStart(2,'0')} / MOVEMENT</span><strong>${clean(m.name)}</strong><span class="movement-description">${clean(m.desc)}</span><span class="movement-count">${matches.length} ${matches.length===1?'artist':'artists'} ${icon('arrow')}</span></button>`}).join('');
+ $('#archive-tag-cloud').innerHTML=archiveTags.map(t=>`<button class="archive-tag" data-tag="${clean(t)}">#${clean(t.replace(/ /g,''))} ${icon('arrow')}</button>`).join('');
  $('#archive-list').innerHTML=Object.values(artists).filter(a=>a.archive).map(a=>smallArtist(a)).join('');
 }
 
-function smallArtist(a){let w=artistWorks(a.id)[0];return `<button class="mini-artist" data-artist="${a.id}">${w?.image?imageMarkup(w):`<div class="mini-art-placeholder">${a.archive?'ARCHIVE':clean(a.name.slice(0,1))}</div>`}<div class="mini-copy"><h3>${clean(a.name)}</h3><p>${clean(a.style)} · ${a.archive?'Historic artist':'Artist'}</p></div></button>`}
-function renderSearch(){const term=($('#search-term').value||'').toLowerCase(),location=($('#search-location').value||'').toLowerCase(),style=$('#search-style').value.toLowerCase(),mood=$('#search-mood').value.toLowerCase();const set=Object.values(artists).filter(a=>{const hay=[a.name,a.location,a.style,a.bio,...artistWorks(a.id).flatMap(w=>[w.title,...w.tags])].join(' ').toLowerCase();return(!term||hay.includes(term))&&(!location||a.location.toLowerCase().includes(location))&&(!style||a.style.toLowerCase().includes(style)||artistWorks(a.id).some(w=>w.style.toLowerCase().includes(style)))&&(!mood||hay.includes(mood)||a.mood.some(m=>m.toLowerCase()===mood))});$('#search-results').innerHTML=set.length?set.map(smallArtist).join(''):`<div class="saved-empty"><strong>No matches yet.</strong>Try a different city or medium. Independent artists are just starting to join the community.</div>`;$('#search-count').textContent=set.length+' artist profiles';}
+function smallArtist(a){let w=artistWorks(a.id)[0];return `<button class="mini-artist" data-artist="${a.id}">${w?.image?imageMarkup(w):`<div class="mini-art-placeholder">${a.archive?'ARCHIVE':clean(a.name.slice(0,1))}</div>`}<div class="mini-copy"><h3>${clean(a.name)}</h3><p>${clean(a.style)} · ${a.archive?clean(a.era||'Historic artist'):'Artist'}</p>${a.archive?`<span class="mini-archive-topic">${clean(a.discoveryTags?.slice(0,3).join(' · ')||'Museum archive')}</span>`:''}</div></button>`}
+function renderSearch(){const term=normArtText($('#search-term').value),location=normArtText($('#search-location').value),style=normArtText($('#search-style').value),medium=normArtText($('#search-medium').value),mood=normArtText($('#search-mood').value);const set=Object.values(artists).filter(a=>{const aw=artistWorks(a.id);const hay=normArtText([a.name,a.location,a.style,a.bio,a.practice,...(a.discoveryTags||[]),...aw.flatMap(w=>[w.title,w.medium,w.style,...w.tags])].join(' '));return(!term||hay.includes(term))&&(!location||normArtText(a.location).includes(location))&&(!style||hay.includes(style))&&(!medium||aw.some(w=>normArtText(w.medium).includes(medium))||normArtText(a.practice).includes(medium))&&(!mood||hay.includes(mood)||a.mood.some(m=>normArtText(m)===mood))});$('#search-results').innerHTML=set.length?set.map(smallArtist).join(''):`<div class="saved-empty"><strong>No matches yet.</strong>Try a different city or medium. Independent artists are just starting to join the community.</div>`;$('#search-count').textContent=set.length+' artist profiles';
+ $('#search-discovery-tags').innerHTML=archiveTags.slice(0,12).map(t=>`<button class="search-discovery-tag ${term===t?'selected':''}" data-tag="${clean(t)}">#${clean(t.replace(/ /g,''))}</button>`).join('');}
 function postHTML(post){const own=post.user==='you'||post.artistId==='nia';const liked=state.liked.includes('post:'+post.id);return `<article class="post-card" data-post="${clean(post.id)}"><div class="dash-post-context"><span>POSTED IN</span><button data-group="${clean(post.group)}">${clean(byGroup(post.group)?.name||"community")} <span>→</span></button></div><div class="post-top"><div class="user-avatar ${clean(post.tone||'')}">${clean(post.avatar)}</div><div><strong>${clean(post.name)}</strong><span>@${clean(post.user)} · ${clean(post.when)} ${!own?'· community preview':''}</span></div><span class="post-dots">···</span></div>${post.title?`<h3>${clean(post.title)}</h3>`:''}${post.reblog?`<div class="reblog-nest"><strong>Repost Reblogged from ${clean(post.reblog.name)}</strong><p>${clean(post.reblog.text)}</p></div>`:''}<p>${clean(post.body)}</p>${post.image?`<img class="post-photo" src="${clean(post.image)}" alt="Illustrative post image" loading="lazy">`:''}<div class="post-tags">${post.tags.map(t=>`<button data-tag="${clean(t)}">#${clean(t.replace(/ /g,''))}</button>`).join('')}</div><div class="post-footer"><span class="demo-note">${own?'Created in your browser':'Community preview'}</span><div class="post-buttons"><button data-post-comments="${post.id}" aria-label="Comments">${icon('comments')}</button><button data-reblog="${post.id}" aria-label="Reblog post">${icon('repeat')}</button><button class="${liked?'on':''}" data-like-post="${post.id}" aria-label="Like post">${icon('heart')}</button></div></div></article>`}
 function toggleCommunityJoin(id){
  const g=byGroup(id);if(!g)return;
@@ -353,13 +406,14 @@ function renderArtist(){
  let tab=state.artistTab;if(tab==='market'&&!marketReady(a))tab='overview';if(tab==='insights'&&!isOwner)tab='overview';state.artistTab=tab;
  const isFollow=state.following.includes(a.id);
  const priceMarkup=w=>askingLabel(w)?`<strong class="art-price">${askingLabel(w)}</strong>`:'';
+ const archiveLead=a.archive?`<section class="archive-dossier"><div class="archive-dossier-top"><span class="eyebrow rose">THE HISTORICAL COLLECTION</span><span class="archive-dossier-index">CURATED ARCHIVE · NOT AN ARTIST-RUN ACCOUNT</span></div><div class="archive-dossier-grid"><div><span>PERIOD</span><strong>${clean(a.era||'Historical')}</strong></div><div><span>MOVEMENT</span><strong>${clean(a.style)}</strong></div><div><span>PRACTICE</span><strong>${clean(a.practice||'Visual art')}</strong></div><div><span>REGION</span><strong>${clean(a.region||a.location)}</strong></div></div><div class="archive-dossier-tags">${(a.discoveryTags||[]).slice(0,9).map(t=>`<button data-tag="${clean(t)}">#${clean(t.replace(/ /g,''))}</button>`).join('')}</div><p>Artwork below is drawn from public-domain museum catalog records where available. These pages are for discovering art history, not selling, representing or speaking for the artists.</p></section>`:'';
  const gallery=`<div class="artist-section-lead"><h2>${tab==='overview'?'Selected works':'All works'}</h2><span>${aw.length} ${aw.length===1?'work':'works'}</span></div>
  <div class="art-grid">${aw.map(w=>`<div class="art-tile" data-work-impression="${w.id}">${w.image?imageMarkup(w):'<div class="mini-art-placeholder archive-image">Museum image loading</div>'}
- <div class="tile-body"><strong>${clean(w.title)}</strong><span>${clean(w.year)} · ${clean(w.medium)}</span>${priceMarkup(w)}${isOwner?`<div class="private-view-chip" aria-label="Private views for ${clean(w.title)}"> ${state.artworkViews[w.id]||0} viewed <span>· only you</span></div>`:''}
- <div class="tile-actions"><span>${a.archive?'Museum collection':soldPreview(w)?'Sold · preview':canBuy(w)?'Available to purchase':'Artwork'}</span><button data-favorite="${w.id}">+ Save</button></div>${canBuy(w)?`<button class="buy-art-button" data-buy="${w.id}">Buy artwork <span>→</span></button>`:''}</div></div>`).join('')}</div>`;
+ <div class="tile-body"><strong>${clean(w.title)}</strong><span>${clean(w.year)} · ${clean(w.medium)}</span>${priceMarkup(w)}${a.archive&&w.museumId?`<a class="archive-source-link" target="_blank" rel="noopener noreferrer" href="https://www.artic.edu/artworks/${Number(w.museumId)}">View museum record ${icon('arrow')}</a>`:''}${isOwner?`<div class="private-view-chip" aria-label="Private views for ${clean(w.title)}"> ${state.artworkViews[w.id]||0} viewed <span>· only you</span></div>`:''}
+ <div class="tile-actions"><span>${a.archive?'Museum collection':soldPreview(w)?'Sold · preview':canBuy(w)?'Available to purchase':'Artwork'}</span><button data-favorite="${w.id}">+ Save</button></div>${canBuy(w)?`<button class="buy-art-button" data-buy="${w.id}">Buy artwork <span>→</span></button>`:''}</div></div>`).join('')}${a.archive&&!aw.length?`<div class="archive-awaiting"><span class="eyebrow rose">ARCHIVE IN PROGRESS</span><h3>The museum shelf is being filled.</h3><p>Verified, public-domain artworks for ${clean(a.name)} will appear here when the Art Institute of Chicago catalog responds. This is an intentionally gradual collection, not a generated gallery.</p><a href="https://www.artic.edu/search?q=${encodeURIComponent(a.name)}" target="_blank" rel="noopener noreferrer">Explore museum collection ${icon('arrow')}</a></div>`:''}</div>`;
  let content='';
- if(tab==='overview')content=`${!a.archive?`<div class="feature-story"><img src="${clean(aw[0]?.image||'')}" alt="Artwork by ${clean(a.name)}"><div><span class="eyebrow">FROM THE STUDIO</span><h3 ${editing?editable('story',150):''}>${clean(a.story||a.tagline)}</h3><p>${clean(a.bio)}</p></div></div>`:''}${gallery}`;
- if(tab==='works')content=gallery;
+ if(tab==='overview')content=`${archiveLead}${!a.archive?`<div class="feature-story"><img src="${clean(aw[0]?.image||'')}" alt="Artwork by ${clean(a.name)}"><div><span class="eyebrow">FROM THE STUDIO</span><h3 ${editing?editable('story',150):''}>${clean(a.story||a.tagline)}</h3><p>${clean(a.bio)}</p></div></div>`:''}${gallery}`;
+ if(tab==='works')content=`${archiveLead}${gallery}`;
  if(tab==='collections')content=a.archive?`<div class="market-empty"><h3>Museum records</h3><p>Explore the artwork archive to view works attributed to ${clean(a.name)}.</p></div>`:
  `<div class="artist-section-lead"><h2>Artist collections</h2><span>Series and creative projects</span></div><div class="collection-grid">${[['Faces & fragments',aw[0]],['Quiet corners',aw[1]||aw[0]],['Color experiments',aw[2]||aw[0]]].map(([title,w])=>`<button class="collection-card" data-artist-tab="works"><div class="collection-cover">${w?.image?imageMarkup(w):''}</div><div class="collection-info"><strong>${title}</strong><span>Explore series →</span></div></button>`).join('')}</div>`;
  if(tab==='market'&&marketReady(a)){
@@ -373,7 +427,7 @@ function renderArtist(){
   const posts=state.posts.filter(p=>p.user===a.handle.replace(/^@/,'')||p.artistId===a.id).reverse();
   content=posts.length?`<div class="artist-posts"><div class="artist-section-lead"><h2>From the studio</h2><span>${posts.length} posts</span></div><div class="posts-column">${posts.map(postHTML).join('')}</div></div>`:`<div class="artist-about"><h3>Notes from ${clean(a.name)}</h3><p>${a.archive?'This historic artist has no social posts.':'Studio updates, ideas and conversations will appear here.'}</p>${isOwner?'<button class="pill coral" data-action="compose">+ Write a post</button>':''}</div>`;
  }
- if(tab==='about')content=`<div class="artist-about"><h3>Behind the work</h3><p ${editing?editable('about',800):''}>${clean(a.about)}</p><p><strong>Practice:</strong> ${clean(a.style)} &nbsp; · &nbsp; <strong>Based in:</strong> ${clean(a.location)}</p></div>`;
+ if(tab==='about')content=`${archiveLead}<div class="artist-about"><h3>Behind the work</h3><p ${editing?editable('about',800):''}>${clean(a.about)}</p><p><strong>Practice:</strong> ${clean(a.style)} &nbsp; · &nbsp; <strong>Based in:</strong> ${clean(a.location)}</p></div>`;
  if(tab==='insights'&&isOwner){
   const posts=state.posts.filter(p=>p.artistId===a.id||p.user===a.handle.replace(/^@/,'')),views=posts.reduce((n,p)=>n+(state.postViews[p.id]||0),0),postLikes=posts.reduce((n,p)=>n+(state.liked.includes('post:'+p.id)?1:0),0);
   const artViews=aw.reduce((n,w)=>n+(state.artworkViews[w.id]||0),0);
@@ -388,20 +442,20 @@ function renderArtist(){
  const commissionActive=!a.archive&&commission.enabled&&commission.options.length>0;
  const mn=commissionMin(a.id);
  const followButton=isOwner?`<button class="profile-main-btn primary owner-edit-main" data-action="edit-profile">${icon('pencil')} Edit profile</button>`:
- `<button class="profile-main-btn primary" data-follow="${a.id}">${isFollow?' Following':'Like Follow artist'}</button>`;
+ `<button class="profile-main-btn primary" data-follow="${a.id}">${a.archive?(isFollow?'Archive saved':'Follow archive'):(isFollow?'Following':'Follow artist')}</button>`;
  const commTop=commissionActive?`<div class="profile-commission-row"><button class="commission-button" data-commission="${a.id}" aria-label="Request a commission from ${clean(a.name)}"><span class="commission-label"> Commission a work</span><span class="commission-aside">${mn?`From ${money(mn)}`:'Request details'} <span aria-hidden="true">→</span></span></button></div>`:'';
  const editor=isOwner&&!editing?`<div class="profile-owner-bar"><span>YOUR STUDIO</span><button class="mini-button" data-action="edit-profile">${icon('pencil')} Edit profile</button><button class="mini-button" data-action="edit-listings">◫ Listings</button><button class="mini-button" data-action="edit-commissions"> Commissions</button><button class="mini-button" data-artist-tab="insights"> Artwork views</button><button class="mini-button" data-action="account-menu"> Account</button></div>`:'';
  $('#artist-main').innerHTML=`${designToolbar('artist',raw.id)}<button class="artist-back" data-page="${state.lastPage==='artist'?'discover':clean(state.lastPage)}">← Back</button>
- <div class="profile-banner theme-${clean(theme)}"></div>
+ <div class="profile-banner theme-${clean(theme)} ${a.archive?'archive-cover':''}" ${a.archive&&aw.find(w=>w.image)?`style="--archive-art:url('${clean(aw.find(w=>w.image).image)}')"`:''}>${a.archive?`<div class="archive-cover-type"><span>OFFFRAME / ART HISTORY</span><strong>${clean(a.style)}</strong><small>${clean(a.era||'HISTORIC ARTIST')} · ${clean(a.region||'')}</small></div>`:''}</div>
  <div class="profile-heading"><div class="profile-avatar">${clean(a.name.split(' ').map(x=>x[0]).join('').slice(0,2))}</div>
  <div class="profile-title"><h1><span ${editing?editable('name',75):''}>${clean(a.name)}</span> ${a.archive?'<span class="historical-badge">HISTORIC ARTIST</span>':''}</h1>
  <div class="handle">${clean(a.handle)} · <span ${editing?editable('style',80):''}>${clean(a.style)}</span></div>
  <div class="profile-intro" ${editing?editable('bio',260):''}>${clean(a.bio)}</div>
- <div class="profile-social-stats"><div><strong>${followers}</strong><span>Followers</span></div><div><strong>${likes}</strong><span>Likes</span></div></div>
+ ${a.archive?`<div class="profile-archive-facts"><div><strong>${clean(a.era||'Historic')}</strong><span>Artist's lifetime</span></div><div><strong>${aw.length}</strong><span>Museum records indexed</span></div></div>`:`<div class="profile-social-stats"><div><strong>${followers}</strong><span>Followers</span></div><div><strong>${likes}</strong><span>Likes</span></div></div>`}
  <div class="profile-main-actions">${followButton}<button class="profile-main-btn secondary" data-action="share-profile">${icon('share')} Share</button></div>
  ${commTop}${editor}</div></div>
  <div class="profile-meta"><span> <span ${editing?editable('location',90):''}>${clean(a.location)}</span></span><span>${a.archive?'Museum archive':clean(a.links||'Artist profile')}</span><span>${aw.length} works</span></div>
- <div class="profile-tabs"><button class="${tab==='overview'?'active':''}" data-artist-tab="overview">Overview</button><button class="${tab==='works'?'active':''}" data-artist-tab="works">Works (${aw.length})</button><button class="${tab==='collections'?'active':''}" data-artist-tab="collections">Collections</button>${marketReady(a)?`<button class="${tab==='market'?'active':''}" data-artist-tab="market">Market${demoSalesFor(a.id).length?' · preview':''}</button>`:''}<button class="${tab==='posts'?'active':''}" data-artist-tab="posts">Posts</button><button class="${tab==='about'?'active':''}" data-artist-tab="about">About</button>${isOwner?`<button class="${tab==='insights'?'active':''}" data-artist-tab="insights">Insights</button>`:''}</div>
+ <div class="profile-tabs"><button class="${tab==='overview'?'active':''}" data-artist-tab="overview">Overview</button><button class="${tab==='works'?'active':''}" data-artist-tab="works">Works (${aw.length})</button><button class="${tab==='collections'?'active':''}" data-artist-tab="collections">Collections</button>${marketReady(a)?`<button class="${tab==='market'?'active':''}" data-artist-tab="market">Market${demoSalesFor(a.id).length?' · preview':''}</button>`:''}${a.archive?'':`<button class="${tab==='posts'?'active':''}" data-artist-tab="posts">Posts</button>`}<button class="${tab==='about'?'active':''}" data-artist-tab="about">About</button>${isOwner?`<button class="${tab==='insights'?'active':''}" data-artist-tab="insights">Insights</button>`:''}</div>
  <div class="profile-tab-content">${content}</div>`;
  applyDesign('artist',raw.id);
  setTimeout(()=>{observePostViews();observeArtworkViews()},80);
@@ -618,7 +672,8 @@ function handleClick(e){
  if(d.collectionView){viewCollection(d.collectionView);return}
  if(d.addCollection){addToCollection(d.addCollection,d.item);return}
  if(d.joinGroup){toggleCommunityJoin(d.joinGroup);return}
- if(d.tag){markPage('search');$('#search-term').value=d.tag;renderSearch();return}
+ if(d.category){markPage('search');$('#search-term').value='';$('#search-style').value=archiveMovements.find(x=>x.name===d.category)?.name||'';$('#search-medium').value='';$('#search-mood').value='';renderSearch();return}
+ if(d.tag){markPage('search');$('#search-style').value='';$('#search-medium').value='';$('#search-mood').value='';$('#search-term').value=d.tag;renderSearch();return}
  const act=d.action;
  if(act==='close'){closeModal();return}
  if(act==='account'){accountModal();return}
@@ -693,42 +748,59 @@ $('#comment-sheet-backdrop').addEventListener('click',closeComments);
 
 document.addEventListener('click',handleClick);document.addEventListener('click',()=>setTimeout(observePostViews,100));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeComments();closeModal();return}if(e.target.matches('textarea,input,select'))return;if(state.page!=='discover'||!['all','archives','releases'].includes(state.feed))return;if($('#modal-cover').classList.contains('open')||$('#comment-sheet').classList.contains('open'))return;if(['ArrowDown','ArrowUp'].includes(e.key)){e.preventDefault();$('#swipe-feed').scrollBy({top:$('#swipe-feed').clientHeight*(e.key==='ArrowDown'?1:-1),behavior:'smooth'})}if(['ArrowLeft','ArrowRight'].includes(e.key)){let feed=$('#swipe-feed');const el=$$('.swipe-slide').find(x=>Math.abs(x.getBoundingClientRect().top-feed.getBoundingClientRect().top)<feed.clientHeight/2);if(el)moveArtwork(el.dataset.galleryKey,e.key==='ArrowRight'?1:-1)}});
-['search-term','search-location'].forEach(id=>$('#'+id).addEventListener('input',renderSearch));['search-style','search-mood'].forEach(id=>$('#'+id).addEventListener('change',renderSearch));
-/* Try museum catalog metadata and public-domain artwork files from an authoritative API.
-   Failures leave archive labels but NEVER replace a historical painting with invented art. */
+['search-term','search-location'].forEach(id=>$('#'+id).addEventListener('input',renderSearch));['search-style','search-medium','search-mood'].forEach(id=>$('#'+id).addEventListener('change',renderSearch));
+/* Archive images and records are populated from an authoritative public-domain catalog.
+   Search by artist attribution and verify each result. No synthetic or fake works. */
 async function museumData(){
- const cached=get('museum',null);
+ const cached=get('museum_v9',null);
  const useCatalog=data=>{
-  const baseData=data.base||{};
-  for(const w of works){if(w.museumId&&baseData[w.museumId]?.image)w.image=baseData[w.museumId].image}
-  for(const w of data.additional||[]){if(!works.some(older=>older.id===w.id||older.museumId===w.museumId))works.push(w)}
-  renderFeed();renderMoods();renderSearch();if(state.page==='artist')renderArtist();
+  for(const w of works){if(w.museumId&&data.base?.[w.museumId]?.image)w.image=data.base[w.museumId].image;}
+  for(const w of data.additional||[]){if(!works.some(older=>older.id===w.id||older.museumId===w.museumId))works.push(w);}
+  if(state.page==='discover'){const feed=$('#swipe-feed'),offset=feed.scrollTop;renderFeed();feed.scrollTop=offset;}
+  renderMoods();renderSearch();if(state.page==='artist')renderArtist();
  };
- if(cached&&cached.expires>Date.now()){useCatalog(cached);return}
- const signalController=new AbortController();const timeout=setTimeout(()=>signalController.abort(),10000);
+ if(cached&&cached.expires>Date.now()&&cached.additional?.length){useCatalog(cached);if(cached.complete)return;}
  const fields='id,title,artist_title,image_id,is_public_domain,date_display,style_title,medium_display';
  const idList=[27992,28560,24645];
- const searchQueries=[['monet','Monet'],['vangogh','Van Gogh'],['hokusai','Hokusai'],['seurat','Seurat'],['cassatt','Cassatt'],['caillebotte','Caillebotte'],['cezanne','Cezanne'],['renoir','Renoir']];
- const fetchJson=async url=>{const r=await fetch(url,{signal:signalController.signal});if(!r.ok)throw Error('Museum returned '+r.status);return await r.json()};
+ const queries=[
+  ['monet','Monet'],['vangogh','Van Gogh'],['hokusai','Hokusai'],['seurat','Seurat'],
+  ['cassatt','Cassatt'],['caillebotte','Caillebotte'],['cezanne','Cézanne'],['renoir','Renoir'],
+  ['morisot','Morisot'],['hiroshige','Hiroshige'],['homer','Winslow Homer'],['redon','Redon'],
+  ['kollwitz','Kollwitz'],['lautrec','Toulouse-Lautrec'],['pissarro','Pissarro'],['klimt','Klimt']
+ ];
+ const result={expires:Date.now()+86400000,base:{...(cached?.base||{})},additional:[...(cached?.additional||[])],complete:false};
+ const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),30000);
+ const fetchJson=async url=>{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('Museum returned '+r.status);return r.json();};
+ const valid=x=>x?.is_public_domain===true&&!!x.image_id;
+ const image=x=>'https://www.artic.edu/iiif/2/'+encodeURIComponent(x.image_id)+'/full/843,/0/default.jpg';
+ const addWorks=(key,query,rows)=>{
+  let added=0;
+  for(const item of rows||[]){
+   if(!valid(item)||!normArtText(item.artist_title).includes(normArtText(query)))continue;
+   if(idList.includes(item.id)||result.additional.some(w=>w.museumId===item.id)||works.some(w=>w.museumId===item.id))continue;
+   result.additional.push({id:'aic'+item.id,museumId:item.id,artist:key,title:item.title||'Untitled',year:item.date_display||'',image:image(item),style:artists[key].style,medium:item.medium_display||'Visual art',tags:catalogDiscoveryTags(item,key),source:'Art Institute of Chicago'});
+   if(++added>=6)break;
+  }
+ };
  try{
-  const jobs=[fetchJson('https://api.artic.edu/api/v1/artworks?ids='+idList.join(',')+'&fields='+fields),...searchQueries.map(([key,q])=>fetchJson('https://api.artic.edu/api/v1/artworks/search?q='+encodeURIComponent(q)+'&query%5Bterm%5D%5Bis_public_domain%5D=true&limit=15&fields='+fields))];
-  const responses=await Promise.allSettled(jobs);
-  const base={};const additional=[];
-  const valid=x=>x&&x.is_public_domain===true&&x.image_id;
-  if(responses[0].status==='fulfilled')for(const x of responses[0].value.data||[]){if(!valid(x))continue;base[x.id]={image:'https://www.artic.edu/iiif/2/'+x.image_id+'/full/843,/0/default.jpg'}}
-  const strip=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  searchQueries.forEach(([key,q],idx)=>{
-   const response=responses[idx+1];if(response.status!=='fulfilled')return;let n=0;
-   for(const item of response.value.data||[]){
-    if(!valid(item)||!strip(item.artist_title).includes(strip(q))||n>=8)continue;
-    if(idList.includes(item.id))continue;
-    additional.push({id:'aic'+item.id,museumId:item.id,artist:key,title:item.title||'Untitled',year:item.date_display||'',image:'https://www.artic.edu/iiif/2/'+item.image_id+'/full/843,/0/default.jpg',style:item.style_title||artists[key].style,medium:item.medium_display||'',tags:[],source:'Art Institute of Chicago'});n++;
-   }
-  });
-  const payload={expires:Date.now()+86400000,base,additional};
-  put('museum',payload);useCatalog(payload);
- }catch{/* The demo still works offline with labeled archive records. */}
- finally{clearTimeout(timeout)}
+  const baseResult=await fetchJson('https://api.artic.edu/api/v1/artworks?ids='+idList.join(',')+'&fields='+fields);
+  for(const x of baseResult.data||[]){if(valid(x))result.base[x.id]={image:image(x)};}
+  useCatalog(result);
+ }catch{ /* A catalogue can be temporarily unavailable. */ }
+ // Limit concurrency: fetch smaller artist batches so slower or rate-limited
+ // museum requests do not block other profile content.
+ let allLoaded=true;
+ for(let offset=0;offset<queries.length;offset+=4){
+  if(controller.signal.aborted){allLoaded=false;break;}
+  const batch=queries.slice(offset,offset+4);
+  const responses=await Promise.allSettled(batch.map(([key,q])=>fetchJson('https://api.artic.edu/api/v1/artworks/search?q='+encodeURIComponent(q)+'&query%5Bterm%5D%5Bis_public_domain%5D=true&limit=35&fields='+fields)));
+  for(let i=0;i<batch.length;i++){if(responses[i].status==='fulfilled')addWorks(batch[i][0],batch[i][1],responses[i].value.data);}
+  if(responses.some(r=>r.status==='rejected'))allLoaded=false;
+  if(result.additional.length){useCatalog(result);put('museum_v9',result);}
+ }
+ clearTimeout(timeout);
+ result.complete=allLoaded;
+ if(result.additional.length)put('museum_v9',result);
 }
 const deepLinkMatch=window.location.hash.match(/^#artist\/([a-z0-9_-]+)$/i);
 if(deepLinkMatch&&artists[deepLinkMatch[1]])openArtist(deepLinkMatch[1]);else markPage('discover');
