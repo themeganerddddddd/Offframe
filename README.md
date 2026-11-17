@@ -1,21 +1,19 @@
-# Offframe V9 — Growing the historical archive
+# Offframe V10 — Personalized Discovery and Art Events
 
-Offframe's mobile-first static prototype now includes eight additional historical artist profiles, editorial movement cards, a searchable tag library, and archive-specific artist dossiers. Museum images and metadata are loaded only from public-domain records from the Art Institute of Chicago. If the museum API is unavailable, a clearly labeled archive-in-progress state appears instead of fabricated artwork.
+Static, mobile-first prototype. No production user accounts, real sales, verified events, or synchronized RSVPs.
 
-The historical profiles are discovery entries, **not** artist-operated accounts, impersonations, sellers, or simulated social metrics. Artist biographies and discovery tags are editorial, not museum-attributed metadata. Per-artwork title, date, medium and image come from museum catalog records. When available, each artwork links to its museum record.
+## For You recommendations
 
-## Preview
+An on-device content-based heuristic uses artwork tags, styles, moods and mediums. Favorites and likes are strong signals; followed artists and attentive viewing time are weaker. Viewing-time influence begins at 6 seconds while the artwork is mostly visible and the tab is active, and is capped at 120 seconds per artwork. Exploration slots add diversity. Users may pause personalization or clear watch-time history. Stored in localStorage, never transmitted to an external recommendation server.
 
-Open `index.html` from a local HTTP server, or use the standalone offline-bundled HTML. Choose **Moods** to view the new movements and tag cloud, then select a historical artist profile; **Archives** in Explore shows the added archive in an art-first feed once public-domain catalog images are available. Search accepts styles, mediums, tag queries and region.
+## Events MVP
 
-The current version remains a frontend-only demo. Sign-in, collections, likes, comment posting, and transactions are not connected to a production backend. No real sales or verification are represented.
+Browse Washington, DC or New Orleans event previews, filter by date/category, discover artists and their featured works, save events, mark Interested/Going, create local event previews, share invitation details and export .ics calendar invitations. Nearby sample events appear in artist profiles and expanded artwork feed overlays.
 
-## Technical
+**Every built-in event is a fictional sample, prominently labeled.** Local drafts, RSVPs and event preferences are browser-local. Links may carry event details but cannot synchronize attendees. Real event imports, organizer confirmations, reminders and multiuser RSVP require a backend. Historical artist profiles represent archival works, not living artist attendance.
 
-- Static HTML, CSS, JS, and local design images; no framework.
-- Public Art Institute of Chicago API: `https://api.artic.edu/api/v1/artworks/search`; only entries with `is_public_domain: true` and `image_id` are displayed as artworks.
-- Museum catalog results are verified against attributed artist name, deduplicated, and cached in browser localStorage for 24 hours (`offframe_v2_museum_v9`).
-- Images are streamed from the museum IIIF service, not invented or sold.
-- To deploy: Vercel preset Other, root `/`, no build command.
+## Deploy
 
-One verified Berthe Morisot artwork, *Woman at Her Toilette* (Art Institute of Chicago, record 11723), is pinned in the archive. Additional public-domain museum records are loaded progressively online.
+Vercel Framework Preset: Other; no build step. Root index.html loads styles.css, app.js, offframe-v10.css and offframe-v10.js in that order. To create a standalone offline HTML preview, run python build_standalone.py.
+
+Offframe retains the archival artist collection, three-second art-first overlays, swipeable artwork gallery, creator portfolio customization, community pages and demo purchases.
