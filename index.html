@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="offframe-v10.css">
 </head>
 <body>
 <div class="shell">
@@ -21,6 +22,7 @@
     <button class="side-link" data-page="moods"><span class="nav-symbol" data-of-icon="grid"></span><span>Moods</span></button>
     <button class="side-link" data-page="search"><span class="nav-symbol" data-of-icon="search"></span><span>Search</span></button>
     <button class="side-link" data-page="community"><span class="nav-symbol" data-of-icon="people"></span><span>Communities</span></button>
+    <button class="side-link" data-page="events"><span class="nav-symbol" data-of-icon="grid"></span><span>Events</span></button>
     <button class="side-link" data-page="saved"><span class="nav-symbol" data-of-icon="heart"></span><span>Favorites</span></button>
    </nav>
    <div class="rail-separator"></div>
@@ -42,16 +44,18 @@
   <div class="section-row"><div><span class="eyebrow">FROM THE WORLD'S MUSEUMS</span><h2>Meet the archive.</h2></div><button class="link-btn" data-feed="archives">Explore archives →</button></div><div class="archive-list" id="archive-list"></div><div class="notice-panel">An expanding selection of historic artists. Artwork is imported only where museum catalogs confirm public-domain status and available images. These are archival discovery pages, not artist-run accounts or works for sale.</div></div>
   <div id="page-search" class="page scrolling-page"><div class="editorial-hero compact"><span class="eyebrow rose">LOOK A LITTLE CLOSER</span><h1>Find <em>your thing.</em></h1><p>Search by artist, city, style, material, subject or the mood you can't quite name.</p></div><div class="search-box"><span></span><input id="search-term" type="search" placeholder="Artists, styles, cities, tags..." aria-label="Search artists"></div><div class="archive-tags-search" id="search-discovery-tags" aria-label="Quick topic searches"></div><div class="search-filters"><label>Location<input id="search-location" placeholder="e.g. New Orleans"></label><label>Art style<select id="search-style"><option value="">All styles</option><option>Contemporary</option><option>Portraiture</option><option>Abstract</option><option>Impressionism</option><option>Post-Impressionism</option><option>Japanese prints</option><option>Pointillism</option><option>Ukiyo-e</option><option>Symbolism</option><option>Expressionism</option><option>American Realism</option><option>Vienna Secession</option><option>Printmaking</option><option>Landscape</option><option>Painting</option></select></label><label>Medium<select id="search-medium"><option value="">All mediums</option><option>Painting</option><option>Oil</option><option>Watercolor</option><option>Print</option><option>Lithography</option><option>Woodblock</option><option>Etching</option><option>Drawing</option><option>Poster</option></select></label><label>Tags / feeling<select id="search-mood"><option value="">Any mood</option><option>Dreamlike</option><option>Vibrant</option><option>Calm</option><option>Nature</option><option>Intimate</option><option>Melancholic</option></select></label></div><div class="section-row"><div><span class="eyebrow">DISCOVERIES</span><h2 id="search-heading">Artists to explore</h2></div><span class="subtle" id="search-count"></span></div><div class="search-cards" id="search-results"></div><div class="new-account-callout"><span class="eyebrow rose">YOUR LOCAL SCENE</span><h3>We're just getting started. Your city could be next.</h3><p>Local, new and trending artist results will grow from real profiles and real activity. Founding creators can claim a spot now.</p><button class="pill light" data-action="join">Create your artist profile →</button></div></div>
   <div id="page-community" class="page scrolling-page community-page"><div id="community-main"></div></div>
+  <div id="page-events" class="page scrolling-page scene-page"><div class="scene-wrap" id="events-main"></div></div>
   <div id="page-saved" class="page scrolling-page"><div id="saved-main"></div></div>
   <div id="page-me" class="page scrolling-page me-page"><div id="me-main"></div></div>
   <div id="page-artist" class="page scrolling-page profile-page"><div id="artist-main"></div></div>
   <div id="page-group" class="page scrolling-page group-page"><div id="group-main"></div></div>
-  <nav class="bottom-nav" aria-label="Mobile navigation"><button class="bottom-link active" data-page="discover"><span data-of-icon="compass"></span>Explore</button><button class="bottom-link" data-page="moods"><span data-of-icon="grid"></span>Moods</button><button class="bottom-link" data-page="search"><span data-of-icon="search"></span>Search</button><button class="bottom-link" data-page="community"><span data-of-icon="people"></span>Community</button><button class="bottom-link" id="bottom-personal-link" data-page="saved"><span data-of-icon="bookmark"></span>Saved</button></nav>
+  <nav class="bottom-nav" aria-label="Mobile navigation"><button class="bottom-link active" data-page="discover"><span data-of-icon="compass"></span>Explore</button><button class="bottom-link" data-page="moods"><span data-of-icon="grid"></span>Moods</button><button class="bottom-link" data-page="events"><span data-of-icon="grid"></span>Events</button><button class="bottom-link" data-page="community"><span data-of-icon="people"></span>Community</button><button class="bottom-link" id="bottom-personal-link" data-page="saved"><span data-of-icon="bookmark"></span>Saved</button></nav>
  </main>
 </div>
 <div class="modal-cover" id="modal-cover" aria-hidden="true"><div class="modal-scrim" data-action="close"></div><div class="modal" role="dialog" aria-modal="true" aria-label="Offframe dialog"><button class="close-modal" data-action="close" aria-label="Close">×</button><div id="modal-content"></div></div></div>
 <div id="comment-sheet" class="comment-sheet-shell" aria-hidden="true"><button id="comment-sheet-backdrop" class="comment-sheet-backdrop" aria-label="Close comments"></button><section id="comment-sheet-content" class="comment-sheet-panel" aria-label="Artwork comments" role="dialog" aria-modal="true"></section></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script src="app.js"></script>
+<script src="offframe-v10.js"></script>
 </body>
 </html>
