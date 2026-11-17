@@ -1,0 +1,20 @@
+/* Offframe V11 — clear event entry and native-feeling photo uploads. */
+#taste-control-strip{display:none!important}
+.of-events-shortcut{flex:0 0 auto;display:inline-flex;gap:5px;align-items:center;justify-content:center;border:1px solid #79626d;background:#322932;border-radius:999px;color:#ffd5c5;padding:9px 14px;font-size:11px;font-weight:800;white-space:nowrap}
+.of-events-shortcut:hover{background:#483441}
+.of-events-shortcut span{font-size:14px}
+.of-add-artwork,.of-gallery-upload,.of-quick-upload,.of-post-image{background:#eab8a9!important;color:#231c23!important;border-radius:12px!important;font-weight:800!important;white-space:nowrap}
+.of-add-artwork{display:inline-flex;align-items:center;gap:8px;min-height:43px}
+.of-add-artwork .of-icon,.of-quick-upload .of-icon{width:16px;height:16px}
+.of-gallery-upload{padding:10px 12px;font-size:11px}
+.of-quick-upload{display:inline-flex;gap:7px;align-items:center;border-color:#d9a596!important;padding:10px 12px}
+.of-bar-upload{background:#f1bfaf!important;color:#271e25!important}
+.of-upload-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.of-upload-preview{width:100%;max-height:245px;object-fit:contain;background:#17161b;border:1px solid #52434b;border-radius:12px;margin:0 0 12px;display:block}
+.of-upload-preview[hidden]{display:none}
+.of-upload-note{font-size:11px!important;color:#c4b1bb!important;margin:8px 0 18px!important;line-height:1.6!important}
+.of-remove-work{display:block;text-align:left;color:#eeb9b9;font-size:10px;text-decoration:underline;text-underline-offset:3px;margin-top:12px;padding:6px 0}
+.of-post-image{padding:10px 12px;font-size:12px}
+.profile-main-actions{display:flex;gap:9px;flex-wrap:wrap}
+@media(max-width:900px){.discover-channels{gap:10px}.of-events-shortcut{padding:8px 10px;font-size:10px}.of-quick-upload{display:none}}
+@media(max-width:760px){.discover-channels{padding:0 8px;gap:5px}.channel-scroll{flex:1;min-width:0;width:auto;justify-content:flex-start;gap:1px}.of-events-shortcut{padding:7px 9px;font-size:10px;max-width:95px}.of-upload-fields{grid-template-columns:1fr}.profile-main-actions .of-add-artwork{order:-1}.of-gallery-upload{font-size:10px}}
